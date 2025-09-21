@@ -17,4 +17,4 @@ plugins:
     opt:
       - paths=source_relative
     # NOTE: You will need to create this directory in your Go projects.
-    out: ../go-routing-service/internal/gen/protos
+    out: gen/go

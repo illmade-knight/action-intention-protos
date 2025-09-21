@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file proto/user.proto.
  */
 export const file_proto_user: GenFile = /*@__PURE__*/
-  fileDesc("ChBwcm90by91c2VyLnByb3RvEhhhY3Rpb25faW50ZW50aW9uLnVzZXIudjEiPQoRQXV0aGVudGljYXRlZFVzZXISCgoCaWQYASABKAkSDQoFYWxpYXMYAiABKAkSDQoFZW1haWwYAyABKAkiPgoSQWRkcmVzc0Jvb2tDb250YWN0EgoKAmlkGAEgASgJEg0KBWFsaWFzGAIgASgJEg0KBWVtYWlsGAMgASgJQjtaOWdpdGh1Yi5jb20vYWN0aW9uLWludGVudGlvbi9wcm90b3MvZ2VuL2dvL3VzZXIvdjE7dXNlcl92MWIGcHJvdG8z");
+  fileDesc("ChBwcm90by91c2VyLnByb3RvEhhhY3Rpb25faW50ZW50aW9uLnVzZXIudjEiPQoRQXV0aGVudGljYXRlZFVzZXISCgoCaWQYASABKAkSDQoFYWxpYXMYAiABKAkSDQoFZW1haWwYAyABKAkiPgoSQWRkcmVzc0Jvb2tDb250YWN0EgoKAmlkGAEgASgJEg0KBWFsaWFzGAIgASgJEg0KBWVtYWlsGAMgASgJQk1aS2dpdGh1Yi5jb20vaWxsbWFkZS1rbmlnaHQvZ28tYWN0aW9uLWludGVudGlvbi1wcm90b3MvZ2VuL2dvL3VzZXIvdjE7dXNlcl92MWIGcHJvdG8z");
 
 /**
  * Represents the authenticated user identity. This is the primary model
