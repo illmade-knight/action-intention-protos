@@ -4,7 +4,7 @@ syntax = "proto3";
 
 package action_intention.user.v1;
 
-option go_package = "github.com/illmade-knight/go-action-intention-protos/gen/go/user/v1;user_v1";
+option go_package = "github.com/illmade-knight/go-action-intention-protos/gen/go/sm/v1;sm_v1";
 
 // Represents a single contact within a user's address book.
 message ContactPb {

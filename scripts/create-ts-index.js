@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const tsGenDir = path.join(__dirname, '..', 'gen', 'ts');
+const tsRealDir = path.join(__dirname, '..', 'real', 'ts'); // NEW: Source for idiomatic TS files
 const indexPath = path.join(tsGenDir, 'index.ts');
 
 console.log('Creating TypeScript barrel file (index.ts)...');
@@ -28,23 +29,53 @@ function findProtoFiles(dir) {
     return results;
 }
 
+function findTsFiles(dir) {
+    let results = [];
+    if (!fs.existsSync(dir)) {
+        return results;
+    }
+    const list = fs.readdirSync(dir);
+    list.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+        if (stat && stat.isDirectory()) {
+            // Recurse into a subdirectory
+            results = results.concat(findTsFiles(filePath));
+        } else if (file.endsWith('.ts')) {
+            // Found a TypeScript file
+            results.push(filePath);
+        }
+    });
+    return results;
+}
+
 try {
+    var protoFiles = []
     if (!fs.existsSync(tsGenDir)) {
         console.warn(`Warning: TypeScript generation directory not found at ${tsGenDir}. Skipping index creation.`);
-        process.exit(0);
+
+    } else {
+        protoFiles = findProtoFiles(tsGenDir);
     }
 
-    const protoFiles = findProtoFiles(tsGenDir);
+    var realFiles = []
+    if (!fs.existsSync(tsRealDir)) {
+        console.warn(`Warning: TypeScript real directory not found at ${tsGenDir}. Skipping index creation.`);
+    } else
+        realFiles = findTsFiles(tsRealDir);
 
-    if (protoFiles.length === 0) {
-        console.log('No generated proto files found to export. Index file will be empty.');
+    // Step 3: Combine both lists of files.
+    const allFiles = [...protoFiles, ...realFiles];
+
+    if (allFiles.length === 0) {
+        console.log('No files found to export. Index file will be empty.');
         fs.writeFileSync(indexPath, '// No models to export\n');
         process.exit(0);
     }
 
     // Create export statements with relative paths from the index file's location.
     // The .js extension is required for modern ESM compatibility.
-    const exports = protoFiles.map(filePath => {
+    const exports = allFiles.map(filePath => {
         const relativePath = path.relative(tsGenDir, filePath);
         // Use forward slashes for cross-platform compatibility in import paths
         const modulePath = relativePath.replace(/\\/g, '/').replace('.ts', '.js');
