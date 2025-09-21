@@ -1,6 +1,6 @@
 {
   "name": "@illmade-knight/action-intention-protos",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generated TypeScript models for the Action/Intention project.",
   "main": "index.js",
   "types": "index.d.ts",
