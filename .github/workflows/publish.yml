@@ -1,0 +1,61 @@
+name: Generate and Publish Packages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: bufbuild/buf-setup-action@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: '[https://registry.npmjs.org](https://registry.npmjs.org)'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate TypeScript code
+        run: npm run generate
+
+      - name: Publish to npm
+        working-directory: ./gen/ts
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: main
+      - uses: actions/checkout@v3
+        with:
+          repository: illmade-knight/go-action-intention-protos
+          path: go-protos
+          # Use a Personal Access Token to allow pushing changes
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: bufbuild/buf-setup-action@v1
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.21'
+
+      - name: Generate Go code
+        working-directory: ./main
+        run: buf generate --output ../go-protos
+
+      - name: Commit and push Go module
+        working-directory: ./go-protos
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          # Commit only if there are changes
+          git commit -m "chore: update generated Go modules" || exit 0
+          git push

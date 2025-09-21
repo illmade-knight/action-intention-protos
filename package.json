@@ -1,0 +1,15 @@
+{
+  "name": "action-intention-protos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared Protobuf definitions for the Action/Intention microservices.",
+  "scripts": {
+    "generate": "buf generate",
+    "lint": "buf lint",
+    "breaking": "buf breaking --against ."
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.57.2",
+    "@bufbuild/protoc-gen-es": "^2.9.0"
+  }
+}
