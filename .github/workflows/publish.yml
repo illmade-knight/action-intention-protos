@@ -11,8 +11,8 @@ on:
 
 jobs:
   # --- Job 1: Build & Generate ---
-  # This job is the single source of truth for code generation. It installs all
-  # dependencies, runs the generator, and uploads the results as artifacts.
+  # This job is the single source of truth for code generation. It assembles
+  # complete, publishable packages and uploads them as artifacts.
   build:
     runs-on: ubuntu-latest
     steps:
@@ -32,15 +32,19 @@ jobs:
         with:
           node-version: '18'
 
-      # THE FIX: Install the protoc plugins that buf needs.
       - name: Install Go plugins
         run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
-      - name: Install Node.js dependencies (which includes protoc-gen-es)
+      - name: Install Node.js dependencies
         run: npm install
 
       - name: Generate all code
         run: npm run generate
+
+      # THE FIX: Copy the package.json template into the generated code directory.
+      # This ensures the artifact is a complete, publishable npm package.
+      - name: Prepare npm package
+        run: cp npm/package.json gen/ts/
 
       # Upload the generated code so the publish jobs can use it.
       - name: Upload TS artifact
@@ -58,7 +62,6 @@ jobs:
   # --- Job 2: Publish the TypeScript package to npm ---
   publish-npm:
     runs-on: ubuntu-latest
-    # This job will only run after the 'build' job succeeds.
     needs: build
     steps:
       - name: Setup Node.js for publishing
@@ -67,30 +70,29 @@ jobs:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
 
-      # Download the pre-generated TypeScript code from the build job.
       - name: Download TS artifact
         uses: actions/download-artifact@v4
         with:
           name: ts-protos
 
+      # THE FIX: Tell npm to publish from the current directory, which now
+      # contains the complete package from the downloaded artifact.
       - name: Publish to npm
-        run: npm publish
+        run: npm publish .
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # --- Job 3: Publish the Go module to its dedicated GitHub repository ---
   publish-go:
     runs-on: ubuntu-latest
-    # This job will only run after the 'build' job succeeds.
     needs: build
     steps:
       - name: Checkout Go module repository
         uses: actions/checkout@v4
         with:
-          repository: illmage-knight/go-action-intention-protos
+          repository: illmade-knight/go-action-intention-protos
           token: ${{ secrets.GH_PAT }}
 
-      # Download the pre-generated Go code and place it in the checked-out repo.
       - name: Download Go artifact
         uses: actions/download-artifact@v4
         with:
@@ -102,7 +104,6 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .
-          # The `|| exit 0` ensures the step doesn't fail if there are no changes.
           git commit -m "chore: update generated Go modules" || exit 0
           git push
 
