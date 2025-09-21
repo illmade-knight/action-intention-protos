@@ -8,7 +8,7 @@ package action_intention.envelope.v1;
 option go_package = "github.com/illmade-knight/go-action-intention-protos/gen/go/envelope/v1;envelope_v1";
 
 // Represents the secure data packet sent between users via the routing service.
-message SecureEnvelope {
+message SecureEnvelopePb {
   // The URN of the message sender (e.g., "urn:sm:user:user-a@example.com").
   string sender_id = 1;
 

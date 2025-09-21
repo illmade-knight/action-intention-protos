@@ -12,51 +12,14 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file proto/user.proto.
  */
 export const file_proto_user: GenFile = /*@__PURE__*/
-  fileDesc("ChBwcm90by91c2VyLnByb3RvEhhhY3Rpb25faW50ZW50aW9uLnVzZXIudjEiPQoRQXV0aGVudGljYXRlZFVzZXISCgoCaWQYASABKAkSDQoFYWxpYXMYAiABKAkSDQoFZW1haWwYAyABKAkiPgoSQWRkcmVzc0Jvb2tDb250YWN0EgoKAmlkGAEgASgJEg0KBWFsaWFzGAIgASgJEg0KBWVtYWlsGAMgASgJQk1aS2dpdGh1Yi5jb20vaWxsbWFkZS1rbmlnaHQvZ28tYWN0aW9uLWludGVudGlvbi1wcm90b3MvZ2VuL2dvL3VzZXIvdjE7dXNlcl92MWIGcHJvdG8z");
-
-/**
- * Represents the authenticated user identity. This is the primary model
- * for the payload of our internal JWTs and for identifying users
- * across all microservices.
- *
- * @generated from message action_intention.user.v1.AuthenticatedUser
- */
-export type AuthenticatedUser = Message<"action_intention.user.v1.AuthenticatedUser"> & {
-  /**
-   * The user's stable, internal ID (e.g., Firestore document ID).
-   *
-   * @generated from field: string id = 1;
-   */
-  id: string;
-
-  /**
-   * The user's display name.
-   *
-   * @generated from field: string alias = 2;
-   */
-  alias: string;
-
-  /**
-   * The user's primary email address.
-   *
-   * @generated from field: string email = 3;
-   */
-  email: string;
-};
-
-/**
- * Describes the message action_intention.user.v1.AuthenticatedUser.
- * Use `create(AuthenticatedUserSchema)` to create a new message.
- */
-export const AuthenticatedUserSchema: GenMessage<AuthenticatedUser> = /*@__PURE__*/
-  messageDesc(file_proto_user, 0);
+  fileDesc("ChBwcm90by91c2VyLnByb3RvEhhhY3Rpb25faW50ZW50aW9uLnVzZXIudjEiNQoJQ29udGFjdFBiEgoKAmlkGAEgASgJEg0KBWFsaWFzGAIgASgJEg0KBWVtYWlsGAMgASgJQk1aS2dpdGh1Yi5jb20vaWxsbWFkZS1rbmlnaHQvZ28tYWN0aW9uLWludGVudGlvbi1wcm90b3MvZ2VuL2dvL3VzZXIvdjE7dXNlcl92MWIGcHJvdG8z");
 
 /**
  * Represents a single contact within a user's address book.
  *
- * @generated from message action_intention.user.v1.AddressBookContact
+ * @generated from message action_intention.user.v1.ContactPb
  */
-export type AddressBookContact = Message<"action_intention.user.v1.AddressBookContact"> & {
+export type ContactPb = Message<"action_intention.user.v1.ContactPb"> & {
   /**
    * The contact's document ID from the address_book subcollection.
    *
@@ -80,9 +43,9 @@ export type AddressBookContact = Message<"action_intention.user.v1.AddressBookCo
 };
 
 /**
- * Describes the message action_intention.user.v1.AddressBookContact.
- * Use `create(AddressBookContactSchema)` to create a new message.
+ * Describes the message action_intention.user.v1.ContactPb.
+ * Use `create(ContactPbSchema)` to create a new message.
  */
-export const AddressBookContactSchema: GenMessage<AddressBookContact> = /*@__PURE__*/
-  messageDesc(file_proto_user, 1);
+export const ContactPbSchema: GenMessage<ContactPb> = /*@__PURE__*/
+  messageDesc(file_proto_user, 0);
 

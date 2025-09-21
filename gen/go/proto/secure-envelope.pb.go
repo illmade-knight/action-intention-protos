@@ -25,7 +25,7 @@ const (
 )
 
 // Represents the secure data packet sent between users via the routing service.
-type SecureEnvelope struct {
+type SecureEnvelopePb struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The URN of the message sender (e.g., "urn:sm:user:user-a@example.com").
 	SenderId string `protobuf:"bytes,1,opt,name=sender_id,json=senderId,proto3" json:"sender_id,omitempty"`
@@ -43,20 +43,20 @@ type SecureEnvelope struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *SecureEnvelope) Reset() {
-	*x = SecureEnvelope{}
+func (x *SecureEnvelopePb) Reset() {
+	*x = SecureEnvelopePb{}
 	mi := &file_proto_secure_envelope_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SecureEnvelope) String() string {
+func (x *SecureEnvelopePb) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SecureEnvelope) ProtoMessage() {}
+func (*SecureEnvelopePb) ProtoMessage() {}
 
-func (x *SecureEnvelope) ProtoReflect() protoreflect.Message {
+func (x *SecureEnvelopePb) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_secure_envelope_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -68,47 +68,47 @@ func (x *SecureEnvelope) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SecureEnvelope.ProtoReflect.Descriptor instead.
-func (*SecureEnvelope) Descriptor() ([]byte, []int) {
+// Deprecated: Use SecureEnvelopePb.ProtoReflect.Descriptor instead.
+func (*SecureEnvelopePb) Descriptor() ([]byte, []int) {
 	return file_proto_secure_envelope_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SecureEnvelope) GetSenderId() string {
+func (x *SecureEnvelopePb) GetSenderId() string {
 	if x != nil {
 		return x.SenderId
 	}
 	return ""
 }
 
-func (x *SecureEnvelope) GetRecipientId() string {
+func (x *SecureEnvelopePb) GetRecipientId() string {
 	if x != nil {
 		return x.RecipientId
 	}
 	return ""
 }
 
-func (x *SecureEnvelope) GetMessageId() string {
+func (x *SecureEnvelopePb) GetMessageId() string {
 	if x != nil {
 		return x.MessageId
 	}
 	return ""
 }
 
-func (x *SecureEnvelope) GetEncryptedData() []byte {
+func (x *SecureEnvelopePb) GetEncryptedData() []byte {
 	if x != nil {
 		return x.EncryptedData
 	}
 	return nil
 }
 
-func (x *SecureEnvelope) GetEncryptedSymmetricKey() []byte {
+func (x *SecureEnvelopePb) GetEncryptedSymmetricKey() []byte {
 	if x != nil {
 		return x.EncryptedSymmetricKey
 	}
 	return nil
 }
 
-func (x *SecureEnvelope) GetSignature() []byte {
+func (x *SecureEnvelopePb) GetSignature() []byte {
 	if x != nil {
 		return x.Signature
 	}
@@ -119,8 +119,8 @@ var File_proto_secure_envelope_proto protoreflect.FileDescriptor
 
 const file_proto_secure_envelope_proto_rawDesc = "" +
 	"\n" +
-	"\x1bproto/secure-envelope.proto\x12\x1caction_intention.envelope.v1\"\xec\x01\n" +
-	"\x0eSecureEnvelope\x12\x1b\n" +
+	"\x1bproto/secure-envelope.proto\x12\x1caction_intention.envelope.v1\"\xee\x01\n" +
+	"\x10SecureEnvelopePb\x12\x1b\n" +
 	"\tsender_id\x18\x01 \x01(\tR\bsenderId\x12!\n" +
 	"\frecipient_id\x18\x02 \x01(\tR\vrecipientId\x12\x1d\n" +
 	"\n" +
@@ -143,7 +143,7 @@ func file_proto_secure_envelope_proto_rawDescGZIP() []byte {
 
 var file_proto_secure_envelope_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_proto_secure_envelope_proto_goTypes = []any{
-	(*SecureEnvelope)(nil), // 0: action_intention.envelope.v1.SecureEnvelope
+	(*SecureEnvelopePb)(nil), // 0: action_intention.envelope.v1.SecureEnvelopePb
 }
 var file_proto_secure_envelope_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

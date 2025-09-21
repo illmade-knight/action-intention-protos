@@ -23,74 +23,8 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Represents the authenticated user identity. This is the primary model
-// for the payload of our internal JWTs and for identifying users
-// across all microservices.
-type AuthenticatedUser struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The user's stable, internal ID (e.g., Firestore document ID).
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// The user's display name.
-	Alias string `protobuf:"bytes,2,opt,name=alias,proto3" json:"alias,omitempty"`
-	// The user's primary email address.
-	Email         string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AuthenticatedUser) Reset() {
-	*x = AuthenticatedUser{}
-	mi := &file_proto_user_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AuthenticatedUser) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AuthenticatedUser) ProtoMessage() {}
-
-func (x *AuthenticatedUser) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_user_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AuthenticatedUser.ProtoReflect.Descriptor instead.
-func (*AuthenticatedUser) Descriptor() ([]byte, []int) {
-	return file_proto_user_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *AuthenticatedUser) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *AuthenticatedUser) GetAlias() string {
-	if x != nil {
-		return x.Alias
-	}
-	return ""
-}
-
-func (x *AuthenticatedUser) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
 // Represents a single contact within a user's address book.
-type AddressBookContact struct {
+type ContactPb struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The contact's document ID from the address_book subcollection.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -102,21 +36,21 @@ type AddressBookContact struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *AddressBookContact) Reset() {
-	*x = AddressBookContact{}
-	mi := &file_proto_user_proto_msgTypes[1]
+func (x *ContactPb) Reset() {
+	*x = ContactPb{}
+	mi := &file_proto_user_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *AddressBookContact) String() string {
+func (x *ContactPb) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AddressBookContact) ProtoMessage() {}
+func (*ContactPb) ProtoMessage() {}
 
-func (x *AddressBookContact) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_user_proto_msgTypes[1]
+func (x *ContactPb) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_user_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -127,26 +61,26 @@ func (x *AddressBookContact) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AddressBookContact.ProtoReflect.Descriptor instead.
-func (*AddressBookContact) Descriptor() ([]byte, []int) {
-	return file_proto_user_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use ContactPb.ProtoReflect.Descriptor instead.
+func (*ContactPb) Descriptor() ([]byte, []int) {
+	return file_proto_user_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *AddressBookContact) GetId() string {
+func (x *ContactPb) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *AddressBookContact) GetAlias() string {
+func (x *ContactPb) GetAlias() string {
 	if x != nil {
 		return x.Alias
 	}
 	return ""
 }
 
-func (x *AddressBookContact) GetEmail() string {
+func (x *ContactPb) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
@@ -157,12 +91,8 @@ var File_proto_user_proto protoreflect.FileDescriptor
 
 const file_proto_user_proto_rawDesc = "" +
 	"\n" +
-	"\x10proto/user.proto\x12\x18action_intention.user.v1\"O\n" +
-	"\x11AuthenticatedUser\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05alias\x18\x02 \x01(\tR\x05alias\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\"P\n" +
-	"\x12AddressBookContact\x12\x0e\n" +
+	"\x10proto/user.proto\x12\x18action_intention.user.v1\"G\n" +
+	"\tContactPb\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05alias\x18\x02 \x01(\tR\x05alias\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05emailBMZKgithub.com/illmade-knight/go-action-intention-protos/gen/go/user/v1;user_v1b\x06proto3"
@@ -179,10 +109,9 @@ func file_proto_user_proto_rawDescGZIP() []byte {
 	return file_proto_user_proto_rawDescData
 }
 
-var file_proto_user_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_proto_user_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_proto_user_proto_goTypes = []any{
-	(*AuthenticatedUser)(nil),  // 0: action_intention.user.v1.AuthenticatedUser
-	(*AddressBookContact)(nil), // 1: action_intention.user.v1.AddressBookContact
+	(*ContactPb)(nil), // 0: action_intention.user.v1.ContactPb
 }
 var file_proto_user_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -203,7 +132,7 @@ func file_proto_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_user_proto_rawDesc), len(file_proto_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

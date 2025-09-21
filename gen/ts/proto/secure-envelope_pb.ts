@@ -13,14 +13,14 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file proto/secure-envelope.proto.
  */
 export const file_proto_secure_envelope: GenFile = /*@__PURE__*/
-  fileDesc("Chtwcm90by9zZWN1cmUtZW52ZWxvcGUucHJvdG8SHGFjdGlvbl9pbnRlbnRpb24uZW52ZWxvcGUudjEimQEKDlNlY3VyZUVudmVsb3BlEhEKCXNlbmRlcl9pZBgBIAEoCRIUCgxyZWNpcGllbnRfaWQYAiABKAkSEgoKbWVzc2FnZV9pZBgDIAEoCRIWCg5lbmNyeXB0ZWRfZGF0YRgEIAEoDBIfChdlbmNyeXB0ZWRfc3ltbWV0cmljX2tleRgFIAEoDBIRCglzaWduYXR1cmUYBiABKAxCVVpTZ2l0aHViLmNvbS9pbGxtYWRlLWtuaWdodC9nby1hY3Rpb24taW50ZW50aW9uLXByb3Rvcy9nZW4vZ28vZW52ZWxvcGUvdjE7ZW52ZWxvcGVfdjFiBnByb3RvMw");
+  fileDesc("Chtwcm90by9zZWN1cmUtZW52ZWxvcGUucHJvdG8SHGFjdGlvbl9pbnRlbnRpb24uZW52ZWxvcGUudjEimwEKEFNlY3VyZUVudmVsb3BlUGISEQoJc2VuZGVyX2lkGAEgASgJEhQKDHJlY2lwaWVudF9pZBgCIAEoCRISCgptZXNzYWdlX2lkGAMgASgJEhYKDmVuY3J5cHRlZF9kYXRhGAQgASgMEh8KF2VuY3J5cHRlZF9zeW1tZXRyaWNfa2V5GAUgASgMEhEKCXNpZ25hdHVyZRgGIAEoDEJVWlNnaXRodWIuY29tL2lsbG1hZGUta25pZ2h0L2dvLWFjdGlvbi1pbnRlbnRpb24tcHJvdG9zL2dlbi9nby9lbnZlbG9wZS92MTtlbnZlbG9wZV92MWIGcHJvdG8z");
 
 /**
  * Represents the secure data packet sent between users via the routing service.
  *
- * @generated from message action_intention.envelope.v1.SecureEnvelope
+ * @generated from message action_intention.envelope.v1.SecureEnvelopePb
  */
-export type SecureEnvelope = Message<"action_intention.envelope.v1.SecureEnvelope"> & {
+export type SecureEnvelopePb = Message<"action_intention.envelope.v1.SecureEnvelopePb"> & {
   /**
    * The URN of the message sender (e.g., "urn:sm:user:user-a@example.com").
    *
@@ -65,9 +65,9 @@ export type SecureEnvelope = Message<"action_intention.envelope.v1.SecureEnvelop
 };
 
 /**
- * Describes the message action_intention.envelope.v1.SecureEnvelope.
- * Use `create(SecureEnvelopeSchema)` to create a new message.
+ * Describes the message action_intention.envelope.v1.SecureEnvelopePb.
+ * Use `create(SecureEnvelopePbSchema)` to create a new message.
  */
-export const SecureEnvelopeSchema: GenMessage<SecureEnvelope> = /*@__PURE__*/
+export const SecureEnvelopePbSchema: GenMessage<SecureEnvelopePb> = /*@__PURE__*/
   messageDesc(file_proto_secure_envelope, 0);
 

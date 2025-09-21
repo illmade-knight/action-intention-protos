@@ -2,3 +2,7 @@
 
 export * from './proto/secure-envelope_pb.js';
 export * from './proto/user_pb.js';
+
+export * from './urn.js';
+export * from './user.js';
+export * from './secure-envelope.js'
