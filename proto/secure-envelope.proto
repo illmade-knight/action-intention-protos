@@ -5,7 +5,7 @@ syntax = "proto3";
 
 package action_intention.envelope.v1;
 
-option go_package = "github.com/illmade-knight/go-action-intention-protos/gen/go/envelope/v1;envelope_v1](https://github.com/illmade-knight/go-action-intention-protos/gen/go/envelope/v1;envelope_v1)";
+option go_package = "github.com/illmade-knight/go-action-intention-protos/gen/go/envelope/v1;envelope_v1";
 
 // Represents the secure data packet sent between users via the routing service.
 message SecureEnvelope {
