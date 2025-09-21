@@ -5,7 +5,7 @@
   "description": "Shared Protobuf definitions for the Action/Intention microservices.",
   "scripts": {
     "generate": "buf generate",
-    "postgenerate": "node scripts/create-ts-index.js",
+    "postgenerate": "cp npm/README.md gen/ts/ && node scripts/create-ts-index.js",
     "lint": "buf lint",
     "breaking": "buf breaking --against ."
   },
