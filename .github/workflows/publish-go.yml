@@ -1,13 +1,9 @@
-# This workflow is triggered ONLY when a new version tag (e.g., v1.0.1) is pushed
-# by another workflow (like the npm release workflow).
-# Its sole job is to generate and publish the Go module for that specific version.
-
 name: Publish Go Module
 
 on:
   push:
     tags:
-      - 'v*' # Trigger on tags like v1.0.0, v1.2.3, etc.
+      - 'v*'
 
 jobs:
   publish-go:
@@ -17,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: main
-          ref: ${{ github.ref }} # Checkout the tag that triggered the workflow
+          ref: ${{ github.ref }}
 
       - name: Checkout Go module repository
         uses: actions/checkout@v4
@@ -31,21 +27,22 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-go@v4
-        with: { go-version: '1.24' }
+        with:
+          go-version: '1.24'
+          cache: true
 
-      # --- Generate and Prepare Package ---
-      # This step generates the Go code and places it directly into the correct repo path.
+      - name: Install protoc-gen-go
+        run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
       - name: Generate Go code
         working-directory: ./main
         run: |
           buf generate --template buf.gen.go.yaml --output ../go-protos
 
-      # This step updates the Go module dependencies, which is good.
       - name: Update Go Module Dependencies
         working-directory: ./go-protos
         run: go mod tidy
 
-      # Commit and push changes
       - name: Commit and push Go module changes
         working-directory: ./go-protos
         run: |
