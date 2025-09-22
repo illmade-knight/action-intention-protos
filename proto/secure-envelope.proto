@@ -27,3 +27,8 @@ message SecureEnvelopePb {
   // The signature of the EncryptedData.
   bytes signature = 6;
 }
+
+// A wrapper message for a list of secure envelopes.
+message SecureEnvelopeListPb {
+  repeated SecureEnvelopePb envelopes = 1;
+}
