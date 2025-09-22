@@ -7,7 +7,7 @@
 // 	protoc        (unknown)
 // source: proto/secure-envelope.proto
 
-package envelope_v1
+package sm_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -115,6 +115,51 @@ func (x *SecureEnvelopePb) GetSignature() []byte {
 	return nil
 }
 
+// A wrapper message for a list of secure envelopes.
+type SecureEnvelopeListPb struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Envelopes     []*SecureEnvelopePb    `protobuf:"bytes,1,rep,name=envelopes,proto3" json:"envelopes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SecureEnvelopeListPb) Reset() {
+	*x = SecureEnvelopeListPb{}
+	mi := &file_proto_secure_envelope_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SecureEnvelopeListPb) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SecureEnvelopeListPb) ProtoMessage() {}
+
+func (x *SecureEnvelopeListPb) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_secure_envelope_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SecureEnvelopeListPb.ProtoReflect.Descriptor instead.
+func (*SecureEnvelopeListPb) Descriptor() ([]byte, []int) {
+	return file_proto_secure_envelope_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *SecureEnvelopeListPb) GetEnvelopes() []*SecureEnvelopePb {
+	if x != nil {
+		return x.Envelopes
+	}
+	return nil
+}
+
 var File_proto_secure_envelope_proto protoreflect.FileDescriptor
 
 const file_proto_secure_envelope_proto_rawDesc = "" +
@@ -127,7 +172,9 @@ const file_proto_secure_envelope_proto_rawDesc = "" +
 	"message_id\x18\x03 \x01(\tR\tmessageId\x12%\n" +
 	"\x0eencrypted_data\x18\x04 \x01(\fR\rencryptedData\x126\n" +
 	"\x17encrypted_symmetric_key\x18\x05 \x01(\fR\x15encryptedSymmetricKey\x12\x1c\n" +
-	"\tsignature\x18\x06 \x01(\fR\tsignatureBUZSgithub.com/illmade-knight/go-action-intention-protos/gen/go/envelope/v1;envelope_v1b\x06proto3"
+	"\tsignature\x18\x06 \x01(\fR\tsignature\"d\n" +
+	"\x14SecureEnvelopeListPb\x12L\n" +
+	"\tenvelopes\x18\x01 \x03(\v2..action_intention.envelope.v1.SecureEnvelopePbR\tenvelopesBIZGgithub.com/illmade-knight/go-action-intention-protos/gen/go/sm/v1;sm_v1b\x06proto3"
 
 var (
 	file_proto_secure_envelope_proto_rawDescOnce sync.Once
@@ -141,16 +188,18 @@ func file_proto_secure_envelope_proto_rawDescGZIP() []byte {
 	return file_proto_secure_envelope_proto_rawDescData
 }
 
-var file_proto_secure_envelope_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_proto_secure_envelope_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_proto_secure_envelope_proto_goTypes = []any{
-	(*SecureEnvelopePb)(nil), // 0: action_intention.envelope.v1.SecureEnvelopePb
+	(*SecureEnvelopePb)(nil),     // 0: action_intention.envelope.v1.SecureEnvelopePb
+	(*SecureEnvelopeListPb)(nil), // 1: action_intention.envelope.v1.SecureEnvelopeListPb
 }
 var file_proto_secure_envelope_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: action_intention.envelope.v1.SecureEnvelopeListPb.envelopes:type_name -> action_intention.envelope.v1.SecureEnvelopePb
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_proto_secure_envelope_proto_init() }
@@ -164,7 +213,7 @@ func file_proto_secure_envelope_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_secure_envelope_proto_rawDesc), len(file_proto_secure_envelope_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

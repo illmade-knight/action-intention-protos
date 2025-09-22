@@ -6,7 +6,7 @@
 // 	protoc        (unknown)
 // source: proto/user.proto
 
-package user_v1
+package sm_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -95,7 +95,7 @@ const file_proto_user_proto_rawDesc = "" +
 	"\tContactPb\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05alias\x18\x02 \x01(\tR\x05alias\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05emailBMZKgithub.com/illmade-knight/go-action-intention-protos/gen/go/user/v1;user_v1b\x06proto3"
+	"\x05email\x18\x03 \x01(\tR\x05emailBIZGgithub.com/illmade-knight/go-action-intention-protos/gen/go/sm/v1;sm_v1b\x06proto3"
 
 var (
 	file_proto_user_proto_rawDescOnce sync.Once

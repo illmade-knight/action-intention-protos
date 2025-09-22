@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file proto/secure-envelope.proto.
  */
 export const file_proto_secure_envelope: GenFile = /*@__PURE__*/
-  fileDesc("Chtwcm90by9zZWN1cmUtZW52ZWxvcGUucHJvdG8SHGFjdGlvbl9pbnRlbnRpb24uZW52ZWxvcGUudjEimwEKEFNlY3VyZUVudmVsb3BlUGISEQoJc2VuZGVyX2lkGAEgASgJEhQKDHJlY2lwaWVudF9pZBgCIAEoCRISCgptZXNzYWdlX2lkGAMgASgJEhYKDmVuY3J5cHRlZF9kYXRhGAQgASgMEh8KF2VuY3J5cHRlZF9zeW1tZXRyaWNfa2V5GAUgASgMEhEKCXNpZ25hdHVyZRgGIAEoDEJVWlNnaXRodWIuY29tL2lsbG1hZGUta25pZ2h0L2dvLWFjdGlvbi1pbnRlbnRpb24tcHJvdG9zL2dlbi9nby9lbnZlbG9wZS92MTtlbnZlbG9wZV92MWIGcHJvdG8z");
+  fileDesc("Chtwcm90by9zZWN1cmUtZW52ZWxvcGUucHJvdG8SHGFjdGlvbl9pbnRlbnRpb24uZW52ZWxvcGUudjEimwEKEFNlY3VyZUVudmVsb3BlUGISEQoJc2VuZGVyX2lkGAEgASgJEhQKDHJlY2lwaWVudF9pZBgCIAEoCRISCgptZXNzYWdlX2lkGAMgASgJEhYKDmVuY3J5cHRlZF9kYXRhGAQgASgMEh8KF2VuY3J5cHRlZF9zeW1tZXRyaWNfa2V5GAUgASgMEhEKCXNpZ25hdHVyZRgGIAEoDCJZChRTZWN1cmVFbnZlbG9wZUxpc3RQYhJBCgllbnZlbG9wZXMYASADKAsyLi5hY3Rpb25faW50ZW50aW9uLmVudmVsb3BlLnYxLlNlY3VyZUVudmVsb3BlUGJCSVpHZ2l0aHViLmNvbS9pbGxtYWRlLWtuaWdodC9nby1hY3Rpb24taW50ZW50aW9uLXByb3Rvcy9nZW4vZ28vc20vdjE7c21fdjFiBnByb3RvMw");
 
 /**
  * Represents the secure data packet sent between users via the routing service.
@@ -70,4 +70,23 @@ export type SecureEnvelopePb = Message<"action_intention.envelope.v1.SecureEnvel
  */
 export const SecureEnvelopePbSchema: GenMessage<SecureEnvelopePb> = /*@__PURE__*/
   messageDesc(file_proto_secure_envelope, 0);
+
+/**
+ * A wrapper message for a list of secure envelopes.
+ *
+ * @generated from message action_intention.envelope.v1.SecureEnvelopeListPb
+ */
+export type SecureEnvelopeListPb = Message<"action_intention.envelope.v1.SecureEnvelopeListPb"> & {
+  /**
+   * @generated from field: repeated action_intention.envelope.v1.SecureEnvelopePb envelopes = 1;
+   */
+  envelopes: SecureEnvelopePb[];
+};
+
+/**
+ * Describes the message action_intention.envelope.v1.SecureEnvelopeListPb.
+ * Use `create(SecureEnvelopeListPbSchema)` to create a new message.
+ */
+export const SecureEnvelopeListPbSchema: GenMessage<SecureEnvelopeListPb> = /*@__PURE__*/
+  messageDesc(file_proto_secure_envelope, 1);
 

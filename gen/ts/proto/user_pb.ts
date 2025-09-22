@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file proto/user.proto.
  */
 export const file_proto_user: GenFile = /*@__PURE__*/
-  fileDesc("ChBwcm90by91c2VyLnByb3RvEhhhY3Rpb25faW50ZW50aW9uLnVzZXIudjEiNQoJQ29udGFjdFBiEgoKAmlkGAEgASgJEg0KBWFsaWFzGAIgASgJEg0KBWVtYWlsGAMgASgJQk1aS2dpdGh1Yi5jb20vaWxsbWFkZS1rbmlnaHQvZ28tYWN0aW9uLWludGVudGlvbi1wcm90b3MvZ2VuL2dvL3VzZXIvdjE7dXNlcl92MWIGcHJvdG8z");
+  fileDesc("ChBwcm90by91c2VyLnByb3RvEhhhY3Rpb25faW50ZW50aW9uLnVzZXIudjEiNQoJQ29udGFjdFBiEgoKAmlkGAEgASgJEg0KBWFsaWFzGAIgASgJEg0KBWVtYWlsGAMgASgJQklaR2dpdGh1Yi5jb20vaWxsbWFkZS1rbmlnaHQvZ28tYWN0aW9uLWludGVudGlvbi1wcm90b3MvZ2VuL2dvL3NtL3YxO3NtX3YxYgZwcm90bzM");
 
 /**
  * Represents a single contact within a user's address book.
