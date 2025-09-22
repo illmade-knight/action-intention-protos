@@ -1,114 +1,39 @@
-# This GitHub Actions workflow automates the generation and publication of
-# both the TypeScript (npm) and Go (GitHub) packages from the Protobuf definitions.
+# This workflow automates the versioning and release process for the npm package
+# using semantic-release. It also creates a versioned Git tag.
 
-name: Generate and Publish Packages
+name: Release and Publish npm Package
 
 on:
-  # Trigger the workflow on every push to the main branch.
   push:
     branches:
       - main
 
 jobs:
-  # --- Job 1: Build & Generate ---
-  # This job is the single source of truth for code generation. It assembles
-  # complete, publishable packages and uploads them as artifacts.
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main repository
         uses: actions/checkout@v4
 
-      - name: Setup Buf
-        uses: bufbuild/buf-setup-action@v1
-
-      - name: Setup Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.21'
-
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install Go plugins
-        run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-
-      - name: Install Node.js dependencies
-        run: npm install
-
-      - name: Generate all code
-        run: npm run generate
-
-      - name: Prepare npm package
-        run: cp npm/package.json gen/ts/
-
-      # Upload the generated code so the publish jobs can use it.
-      - name: Upload TS artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ts-protos
-          path: gen/ts/
-
-      - name: Upload Go artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: go-protos
-          path: gen/go/
-
-  # --- Job 2: Publish the TypeScript package to npm ---
-  publish-npm:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Setup Node.js for publishing
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Download TS artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ts-protos
+      - name: Install dependencies
+        run: npm install
 
-      - name: Publish to npm
-        run: npm publish .
+      - name: Run semantic-release
+        # This single command handles everything:
+        # 1. Analyzes commits to determine the next version.
+        # 2. Runs 'npm run generate' (defined in our config).
+        # 3. Updates package.json with the new version.
+        # 4. Publishes the package to npm.
+        # 5. Creates a GitHub Release and a Git tag (e.g., v1.0.1).
+        run: npx semantic-release
         env:
+          # These secrets are required by semantic-release
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  # --- Job 3: Publish the Go module to its dedicated GitHub repository ---
-  publish-go:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout Go module repository
-        uses: actions/checkout@v4
-        with:
-          repository: illmade-knight/go-action-intention-protos
-          token: ${{ secrets.GH_PAT }}
-
-      - name: Download Go artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: go-protos
-          # Place the generated files in a `gen` directory
-          path: ./gen
-
-      # THE FIX:
-      # Create a go.mod file to ensure the module has a modern Go version.
-      - name: Initialize and Tidy Go Module
-        run: |
-          go mod init github.com/illmade-knight/go-action-intention-protos
-          go mod edit -go=1.24
-          go mod tidy
-
-      - name: Commit and push Go module
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add .
-          git commit -m "chore: update generated Go modules and go.mod" || exit 0
-          git push
 

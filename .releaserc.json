@@ -1,0 +1,15 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    ["@semantic-release/npm", {
+      "pkgRoot": "gen/ts"
+    }],
+    ["@semantic-release/exec", {
+      "prepareCmd": "npm run generate && cp npm/package.json gen/ts/ && cp npm/README.md gen/ts/"
+    }],
+    "@semantic-release/github"
+  ]
+}
+
