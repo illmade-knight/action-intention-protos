@@ -21,14 +21,24 @@ export function secureEnvelopeToProto(envelope: SecureEnvelope): SecureEnvelopeP
     });
 }
 
+function base64ToBytes(base64: string): Uint8Array {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+}
+
 export function secureEnvelopeFromProto(protoEnvelope: SecureEnvelopePb): SecureEnvelope {
     return {
         senderId: URN.parse(protoEnvelope.senderId),
         recipientId: URN.parse(protoEnvelope.recipientId),
         messageId: protoEnvelope.messageId,
-        encryptedSymmetricKey: protoEnvelope.encryptedSymmetricKey,
-        encryptedData: protoEnvelope.encryptedData,
-        signature: protoEnvelope.signature,
+        // Convert Base64 strings to Uint8Array here
+        encryptedSymmetricKey: base64ToBytes(protoEnvelope.encryptedSymmetricKey as unknown as string),
+        encryptedData: base64ToBytes(protoEnvelope.encryptedData as unknown as string),
+        signature: protoEnvelope.signature, // Assuming signature is already a byte array
     };
 }
 
