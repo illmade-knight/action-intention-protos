@@ -34,6 +34,11 @@ jobs:
       - name: Install protoc-gen-go
         run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
+      - name: Clean Go module directory
+        working-directory: ./go-protos
+        # Remove any previously generated files to prevent old artifacts from being committed.
+        run: rm -rf ./gen
+
       - name: Generate Go code
         working-directory: ./main
         run: |
