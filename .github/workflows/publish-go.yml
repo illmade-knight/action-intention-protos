@@ -60,3 +60,5 @@ jobs:
           git add .
           git commit -m "chore(release): update generated Go modules for ${{ github.ref_name }}" || exit 0
           git push
+          git tag ${{ github.ref_name }}
+          git push origin ${{ github.ref_name }}
