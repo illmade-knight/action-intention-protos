@@ -37,6 +37,11 @@ jobs:
         run: |
           export PATH="$PATH:$(pwd)/node_modules/.bin"
           buf generate
+          mkdir -p gen/ts/real # Ensure the target directory exists
+          # Copy all files from the source directory to the destination
+          if [ -d "src/ts" ]; then
+            cp -r src/ts/* gen/ts/real/
+          fi
           node ./scripts/create-ts-index.js # <--- ADD THIS LINE
           cp npm/package.json gen/ts/
           cp npm/README.md gen/ts/
