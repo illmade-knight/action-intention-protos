@@ -35,10 +35,6 @@ jobs:
 
       - name: Generate and Prepare Package
         run: |
-          # This is the final, critical change.
-          # We add the local node_modules binaries to the system PATH.
-          # This allows the global 'buf' command to find the 'protoc-gen-es'
-          # plugin installed by npm, resolving the conflict.
           export PATH="$PATH:$(pwd)/node_modules/.bin"
           buf generate && cp npm/package.json gen/ts/ && cp npm/README.md gen/ts/
 
