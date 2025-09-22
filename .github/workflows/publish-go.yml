@@ -27,7 +27,6 @@ jobs:
       - name: Setup Buf, Go, and Node.js
         uses: bufbuild/buf-setup-action@v1
         with:
-          # This is the critical change to fix the network error.
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-go@v4
         with: { go-version: '1.24' }
@@ -46,12 +45,10 @@ jobs:
           export PATH="$PATH:$(pwd)/node_modules/.bin"
           buf generate --output ../go-protos
 
-      - name: Initialize and Tidy Go Module
+      # This step is now corrected for an existing module
+      - name: Update Go Module Dependencies
         working-directory: ./go-protos
-        run: |
-          go mod init github.com/illmade-knight/go-action-intention-protos
-          go mod edit -go=1.24
-          go mod tidy
+        run: go mod tidy
 
       - name: Commit and push Go module
         working-directory: ./go-protos

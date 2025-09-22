@@ -1,5 +1,5 @@
 import {create} from "@bufbuild/protobuf";
-import {SecureEnvelopePb, SecureEnvelopePbSchema} from "../proto/secure-envelope_pb";
+import {SecureEnvelopePb, SecureEnvelopePbSchema} from "../proto/secure-envelope_pb.js";
 
 export interface SecureEnvelope {
     senderId: URN
