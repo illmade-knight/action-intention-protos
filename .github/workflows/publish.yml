@@ -34,10 +34,13 @@ jobs:
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
       - name: Generate and Prepare Package
-        # This is the critical change.
-        # We call 'buf generate' directly to use the globally-installed CLI
-        # that is aware of the Go environment PATH, instead of using 'npm run generate'.
-        run: buf generate && cp npm/package.json gen/ts/ && cp npm/README.md gen/ts/
+        run: |
+          # This is the final, critical change.
+          # We add the local node_modules binaries to the system PATH.
+          # This allows the global 'buf' command to find the 'protoc-gen-es'
+          # plugin installed by npm, resolving the conflict.
+          export PATH="$PATH:$(pwd)/node_modules/.bin"
+          buf generate && cp npm/package.json gen/ts/ && cp npm/README.md gen/ts/
 
       - name: Run semantic-release
         run: npx semantic-release
