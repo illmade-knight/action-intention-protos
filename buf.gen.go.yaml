@@ -1,0 +1,12 @@
+# This file configures the code generation process. It tells `buf` which
+# plugins to use and where to output the generated files.
+
+version: v1
+plugins:
+  # --- Go Generation ---
+  # This will generate the Go structs for our backend microservices.
+  - plugin: go
+    opt:
+      - paths=source_relative
+    # NOTE: You will need to create this directory in your Go projects.
+    out: gen/go
