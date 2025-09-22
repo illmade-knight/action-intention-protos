@@ -15,12 +15,9 @@ jobs:
       - name: Checkout main repository
         uses: actions/checkout@v4
         with:
-          # Use the Personal Access Token (PAT) to grant write permissions for pushing tags and commits.
           token: ${{ secrets.GH_PAT }}
-          # Fetch all history for semantic-release to analyze all commits.
           fetch-depth: 0
 
-      # ---- ADD THESE SETUP STEPS ----
       - name: Setup Buf, Go, and Node.js
         uses: bufbuild/buf-setup-action@v1
       - uses: actions/setup-go@v4
@@ -31,21 +28,19 @@ jobs:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies and plugins
+        run: |
+          npm install
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
       - name: Generate and Prepare Package
-        run: npm run generate && cp npm/package.json gen/ts/ && cp npm/README.md gen/ts/
+        # This is the critical change.
+        # We call 'buf generate' directly to use the globally-installed CLI
+        # that is aware of the Go environment PATH, instead of using 'npm run generate'.
+        run: buf generate && cp npm/package.json gen/ts/ && cp npm/README.md gen/ts/
 
       - name: Run semantic-release
-        # This single command handles everything:
-        # 1. Analyzes commits to determine the next version.
-        # 2. Runs 'npm run generate' (defined in our config).
-        # 3. Updates package.json with the new version.
-        # 4. Publishes the package to npm.
-        # 5. Creates a GitHub Release and a Git tag (e.g., v1.0.1).
         run: npx semantic-release
         env:
-          # These secrets are required by semantic-release
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
