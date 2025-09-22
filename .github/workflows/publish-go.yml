@@ -51,3 +51,9 @@ jobs:
           git add .
           git commit -m "chore(release): update generated Go modules for ${{ github.ref_name }}" || exit 0
           git push
+
+      - name: Tag Go module repository
+        working-directory: ./go-protos
+        run: |
+          git tag ${{ github.ref_name }}
+          git push origin ${{ github.ref_name }}
