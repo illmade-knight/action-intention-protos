@@ -20,8 +20,13 @@ jobs:
           # Fetch all history for semantic-release to analyze all commits.
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      # ---- ADD THESE SETUP STEPS ----
+      - name: Setup Buf, Go, and Node.js
+        uses: bufbuild/buf-setup-action@v1
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
