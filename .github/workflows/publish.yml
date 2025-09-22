@@ -14,6 +14,11 @@ jobs:
     steps:
       - name: Checkout main repository
         uses: actions/checkout@v4
+        with:
+          # Use the Personal Access Token (PAT) to grant write permissions for pushing tags and commits.
+          token: ${{ secrets.GH_PAT }}
+          # Fetch all history for semantic-release to analyze all commits.
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,4 +41,3 @@ jobs:
           # These secrets are required by semantic-release
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
