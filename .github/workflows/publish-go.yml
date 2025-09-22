@@ -26,10 +26,13 @@ jobs:
 
       - name: Setup Buf, Go, and Node.js
         uses: bufbuild/buf-setup-action@v1
+        with:
+          # This is the critical change to fix the network error.
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-go@v4
         with: { go-version: '1.24' }
       - uses: actions/setup-node@v4
-        with: { node-version: '22' } # Updated node version for consistency
+        with: { node-version: '22' }
 
       - name: Install dependencies and plugins
         working-directory: ./main
@@ -40,8 +43,6 @@ jobs:
       - name: Generate Go code
         working-directory: ./main
         run: |
-          # This is the critical change.
-          # Add the local node_modules binaries to the system PATH so 'buf' can find 'protoc-gen-es'.
           export PATH="$PATH:$(pwd)/node_modules/.bin"
           buf generate --output ../go-protos
 
