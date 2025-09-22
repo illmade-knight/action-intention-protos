@@ -41,8 +41,6 @@ jobs:
       - name: Generate all code
         run: npm run generate
 
-      # THE FIX: Copy the package.json template into the generated code directory.
-      # This ensures the artifact is a complete, publishable npm package.
       - name: Prepare npm package
         run: cp npm/package.json gen/ts/
 
@@ -75,8 +73,6 @@ jobs:
         with:
           name: ts-protos
 
-      # THE FIX: Tell npm to publish from the current directory, which now
-      # contains the complete package from the downloaded artifact.
       - name: Publish to npm
         run: npm publish .
         env:
@@ -97,13 +93,22 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: go-protos
-          path: .
+          # Place the generated files in a `gen` directory
+          path: ./gen
+
+      # THE FIX:
+      # Create a go.mod file to ensure the module has a modern Go version.
+      - name: Initialize and Tidy Go Module
+        run: |
+          go mod init github.com/illmade-knight/go-action-intention-protos
+          go mod edit -go=1.24
+          go mod tidy
 
       - name: Commit and push Go module
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .
-          git commit -m "chore: update generated Go modules" || exit 0
+          git commit -m "chore: update generated Go modules and go.mod" || exit 0
           git push
 
