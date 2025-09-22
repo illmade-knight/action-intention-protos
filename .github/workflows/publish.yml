@@ -36,7 +36,10 @@ jobs:
       - name: Generate and Prepare Package
         run: |
           export PATH="$PATH:$(pwd)/node_modules/.bin"
-          buf generate && cp npm/package.json gen/ts/ && cp npm/README.md gen/ts/
+          buf generate
+          node ./create-ts-index.js # <--- ADD THIS LINE
+          cp npm/package.json gen/ts/
+          cp npm/README.md gen/ts/
 
       - name: Run semantic-release
         run: npx semantic-release
