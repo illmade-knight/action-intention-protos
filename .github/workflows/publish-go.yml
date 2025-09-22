@@ -27,9 +27,9 @@ jobs:
       - name: Setup Buf, Go, and Node.js
         uses: bufbuild/buf-setup-action@v1
       - uses: actions/setup-go@v4
-        with: { go-version: '1.21' }
+        with: { go-version: '1.24' }
       - uses: actions/setup-node@v4
-        with: { node-version: '18' }
+        with: { node-version: '22' } # Updated node version for consistency
 
       - name: Install dependencies and plugins
         working-directory: ./main
@@ -39,13 +39,17 @@ jobs:
 
       - name: Generate Go code
         working-directory: ./main
-        run: buf generate --output ../go-protos
+        run: |
+          # This is the critical change.
+          # Add the local node_modules binaries to the system PATH so 'buf' can find 'protoc-gen-es'.
+          export PATH="$PATH:$(pwd)/node_modules/.bin"
+          buf generate --output ../go-protos
 
       - name: Initialize and Tidy Go Module
         working-directory: ./go-protos
         run: |
           go mod init github.com/illmade-knight/go-action-intention-protos
-          go mod edit -go=1.21
+          go mod edit -go=1.24
           go mod tidy
 
       - name: Commit and push Go module
@@ -56,4 +60,3 @@ jobs:
           git add .
           git commit -m "chore(release): update generated Go modules for ${{ github.ref_name }}" || exit 0
           git push
-
