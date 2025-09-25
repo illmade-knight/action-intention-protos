@@ -40,17 +40,13 @@ jobs:
           export PATH="$PATH:$(pwd)/node_modules/.bin"
           buf generate
           
-          # --- THE FIX: FLATTEN THE GENERATED TS DIRECTORY ---
-          # Create a temporary directory to hold the flattened files
-          mkdir -p gen/ts/proto_flat
+          # --- THE FIX: A MORE ROBUST SCRIPT TO FLATTEN THE TS DIRECTORY ---
+          # Step 1: Find all _pb.ts files in subdirectories and move them to the root gen/ts/proto folder.
+          # The -mindepth 2 ensures we don't try to move files already in the root.
+          find gen/ts/proto -mindepth 2 -type f -name "*_pb.ts" -exec mv -t gen/ts/proto/ {} +
 
-          # Find all generated _pb.ts files in the nested structure and move them
-          # to the flattened directory.
-          find gen/ts/proto -type f -name "*_pb.ts" -exec mv {} gen/ts/proto_flat/ \;
-
-          # Remove the old, nested directory and replace it with the flattened one
-          rm -rf gen/ts/proto
-          mv gen/ts/proto_flat gen/ts/proto
+          # Step 2: Find all now-empty subdirectories and delete them.
+          find gen/ts/proto -mindepth 1 -type d -empty -delete
           # --- END OF FIX ---
           
           mkdir -p gen/ts/real # Ensure the target directory exists
