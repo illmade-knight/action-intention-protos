@@ -84,6 +84,16 @@ jobs:
         # Remove the explicit file path and rely only on the vitest.config.ts include pattern.
         run: ./node_modules/.bin/vitest run --reporter verbose
 
+      - name: Copy Final Package Files to npm Directory 📦
+        run: |
+          echo "Copying final package structure from gen/ts/ to ./npm/..."
+          
+          # Copy all contents *inside* gen/ts/ to ./npm/
+          cp -r gen/ts/. ./npm/
+          
+          # Clean up the intermediate gen/ts folder.
+          rm -rf gen/ts
+
       - name: Publish to npm and create Git tag
         working-directory: ./npm
         run: npx semantic-release
