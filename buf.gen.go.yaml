@@ -9,6 +9,6 @@ plugins:
     opt:
       - paths=source_relative
       # THE FIX: Explicitly tell the generator to use the modern protobuf module.
-      # - module=google.golang.org/protobuf
+      # module=google.golang.org/protobuf
     # NOTE: You will need to create this directory in your Go projects.
     out: gen/go
