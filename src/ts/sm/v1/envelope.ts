@@ -1,5 +1,5 @@
 import {create} from "@bufbuild/protobuf";
-import {SecureEnvelopePb, SecureEnvelopePbSchema} from "../proto/secure-envelope_pb.js";
+import {SecureEnvelopePb, SecureEnvelopePbSchema} from "./secure-envelope_pb.js";
 
 export interface SecureEnvelope {
     senderId: URN
@@ -40,6 +40,21 @@ export function secureEnvelopeFromProto(protoEnvelope: SecureEnvelopePb): Secure
         encryptedData: base64ToBytes(protoEnvelope.encryptedData as unknown as string),
         signature: protoEnvelope.signature, // Assuming signature is already a byte array
     };
+}
+
+// this is to test the imports from the generated files  -for some reason the test file cannot handle them directly
+export function mirrorTest(): SecureEnvelope {
+
+    const sepb = create(SecureEnvelopePbSchema, {
+        senderId: URN.create('user', 'alice-123').toString(),
+        recipientId: URN.create('user', 'bob-123').toString(),
+        messageId: "msg-abc-123-xyz",
+        encryptedSymmetricKey: 'Z2V0IHRoaXMgZG9uZQ==',
+        encryptedData: 'Z2V0IHRoaXMgZG9uZQ==',
+        signature: 'Z2V0IHRoaXMgZG9uZQ==',
+    });
+
+    return secureEnvelopeFromProto(sepb)
 }
 
 /**

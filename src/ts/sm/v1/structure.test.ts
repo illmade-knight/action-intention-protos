@@ -5,12 +5,11 @@ import { describe, it, expect } from 'vitest';
 // and that the "real" idiomatic TS files can successfully import the generated proto files.
 
 // 1. Import a "real" TS entity.
-import { URN } from './envelope.js';
+import { URN, mirrorTest } from './envelope.js';
 
 // 2. Import a generated proto directly to be certain the pathing works.
-// THE FIX: Added the '.js' extension to the import path. This is required for
-// proper module resolution in an ES Modules context.
-import { SecureEnvelopePb } from '../proto/secure-envelope_pb.js';
+// we keep this here because it fails directly if the import path is corrupted
+import { SecureEnvelopePb } from './secure-envelope_pb.js';
 
 describe('Package Structure Verification Test', () => {
 
@@ -24,7 +23,8 @@ describe('Package Structure Verification Test', () => {
 
         // Trivial assertions to confirm the imports are not undefined.
         expect(URN).toBeDefined();
-        expect(SecureEnvelopePb).toBeDefined();
+        const env = mirrorTest()
+        expect(env).toBeDefined();
 
         console.log('✅ [Verification Test] Package structure is valid. Imports resolved successfully.');
     });

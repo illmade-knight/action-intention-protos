@@ -1,0 +1,38 @@
+// File: ./npm/tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
+    // Ensure accurate module system compatibility
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+
+    // Set source directories (where TS finds the files to compile)
+    // The rootDir should encompass all source and generated TS files.
+    "rootDir": "../",
+
+    // The output directory for compiled JS files
+    // This will mirror the structure from rootDir into the gen/ts folder.
+    "outDir": "../",
+
+    // This is the critical step to resolve the module ambiguity.
+    // It tells the compiler and resolver where to find files that don't match
+    // standard Node resolution rules, eliminating the final undefined error.
+    "paths": {
+      // Map the logical path for Node resolution to the physical file locations.
+      // This ensures node_modules, source files, and generated files are all checked.
+      "*": ["../node_modules/*", "../gen/ts/*", "../src/ts/*"]
+    }
+  },
+  "include": [
+    // Include all generated and source TypeScript files for compilation and testing
+    "../gen/ts/**/*.ts",
+    "../src/ts/**/*.ts"
+  ],
+  "exclude": [
+    "../node_modules"
+  ]
+}

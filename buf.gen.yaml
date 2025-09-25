@@ -8,6 +8,7 @@ plugins:
   - plugin: es
     opt:
       - target=ts
+      - import_extension=js
     # NOTE: You will need to create this directory in your Angular project.
     out: gen/ts
 

@@ -6,8 +6,16 @@ export default defineConfig({
         // config file. This helps it correctly resolve paths.
         root: '.',
 
-        // THE FIX: The include pattern must use the correct relative path
-        // from this config file's location (./npm) to the test file.
-        include: ['../gen/ts/real/structure.test.ts'],
+        include: ['../gen/ts/**/*.test.ts'],
+
+        deps: {
+            // Force Vitest to handle the Protobuf runtime dependencies
+            // as inline modules to prevent common module loading failures.
+            inline: [
+                /@bufbuild\/protobuf/
+            ],
+            // Ensures correct handling of default exports
+            interopDefault: true,
+        },
     },
 });
