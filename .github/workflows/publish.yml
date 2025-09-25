@@ -25,41 +25,45 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '1.24'
+          cache: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
+      # THE FIX: This step now installs BOTH the Go plugin (globally) and the
+      # Node.js plugins (locally in the npm/ directory) before they are needed.
       - name: Install dependencies and plugins
         run: |
-          npm install
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          npm install --prefix ./npm
 
       - name: Generate and Prepare Package
         run: |
-          export PATH="$PATH:$(pwd)/node_modules/.bin"
+          # Add both the Go bin path and the local npm bin path to the PATH
+          export PATH="$PATH:$(go env GOPATH)/bin:$(pwd)/npm/node_modules/.bin"
+          echo "--- Starting package preparation ---"
           buf generate
-          
-          # --- THE FIX: A MORE ROBUST SCRIPT TO FLATTEN THE TS DIRECTORY ---
-          # Step 1: Find all _pb.ts files in subdirectories and move them to the root gen/ts/proto folder.
-          # The -mindepth 2 ensures we don't try to move files already in the root.
+          echo "Flattening TypeScript directory..."
           find gen/ts/proto -mindepth 2 -type f -name "*_pb.ts" -exec mv -t gen/ts/proto/ {} +
-
-          # Step 2: Find all now-empty subdirectories and delete them.
           find gen/ts/proto -mindepth 1 -type d -empty -delete
-          # --- END OF FIX ---
-          
-          mkdir -p gen/ts/real # Ensure the target directory exists
-          # Copy all files from the source directory to the destination
+          echo "Copying helper TypeScript files..."
+          mkdir -p gen/ts/real
           if [ -d "src/ts" ]; then
             cp -r src/ts/* gen/ts/real/
           fi
-          node ./scripts/create-ts-index.js # <--- ADD THIS LINE
-          cp npm/package.json gen/ts/
-          cp npm/README.md gen/ts/
+          echo "Creating the main index.ts barrel file..."
+          node ./scripts/create-ts-index.js
+          echo "--- ✅ Package preparation complete ---"
 
-      - name: Run semantic-release
+      - name: Verify Package Structure
+        working-directory: ./npm
+        run: ./node_modules/.bin/vitest run --reporter verbose ../gen/ts/real/structure.test.ts
+
+      - name: Publish to npm and create Git tag
+        working-directory: ./npm
         run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+
