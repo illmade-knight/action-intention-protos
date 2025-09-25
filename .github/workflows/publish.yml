@@ -38,7 +38,6 @@ jobs:
 
       - name: Generate and Prepare Package
         run: |
-          # Add necessary paths (unchanged)
           export PATH="$PATH:$(go env GOPATH)/bin:$(pwd)/npm/node_modules/.bin"
           echo "--- Starting package preparation (Merged Hierarchy) ---"
           
@@ -62,10 +61,6 @@ jobs:
           echo "Creating the main index.ts barrel file..."
           node ./scripts/create-ts-index.js 
           
-           # 5. Create index file (Requires update to create-ts-index.js to scan hierarchy)
-          echo "Creating the main index.ts barrel file..."
-          node ./scripts/create-ts-index.js 
-          
           # 🚨 DEBUG STEP: Print the contents of the generated index.ts 🚨
           echo "--- START: index.ts Content Debug ---"
           cat gen/ts/index.ts
@@ -77,6 +72,9 @@ jobs:
           find gen/ts -type f 
           echo "--- END: Directory Structure Debug ---"
           
+          cp npm/package.json gen/ts/
+          cp npm/README.md gen/ts/
+          
           echo "--- ✅ Package preparation complete ---"
 
       - name: Verify Package Structure
@@ -84,18 +82,8 @@ jobs:
         # Remove the explicit file path and rely only on the vitest.config.ts include pattern.
         run: ./node_modules/.bin/vitest run --reporter verbose
 
-      - name: Copy Final Package Files to npm Directory 📦
-        run: |
-          echo "Copying final package structure from gen/ts/ to ./npm/..."
-          
-          # Copy all contents *inside* gen/ts/ to ./npm/
-          cp -r gen/ts/. ./npm/
-          
-          # Clean up the intermediate gen/ts folder.
-          rm -rf gen/ts
 
       - name: Publish to npm and create Git tag
-        working-directory: ./npm
         run: npx semantic-release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
