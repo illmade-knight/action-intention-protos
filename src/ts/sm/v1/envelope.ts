@@ -21,7 +21,7 @@ export function secureEnvelopeToProto(envelope: SecureEnvelope): SecureEnvelopeP
     });
 }
 
-function base64ToBytes(base64: string): Uint8Array {
+export function base64ToBytes(base64: string): Uint8Array {
     const binaryString = atob(base64);
     const bytes = new Uint8Array(binaryString.length);
     for (let i = 0; i < binaryString.length; i++) {
@@ -40,21 +40,6 @@ export function secureEnvelopeFromProto(protoEnvelope: SecureEnvelopePb): Secure
         encryptedData: base64ToBytes(protoEnvelope.encryptedData as unknown as string),
         signature: protoEnvelope.signature, // Assuming signature is already a byte array
     };
-}
-
-// this is to test the imports from the generated files  -for some reason the test file cannot handle them directly
-export function mirrorTest(): SecureEnvelope {
-
-    const sepb = create(SecureEnvelopePbSchema, {
-        senderId: URN.create('user', 'alice-123').toString(),
-        recipientId: URN.create('user', 'bob-123').toString(),
-        messageId: "msg-abc-123-xyz",
-        encryptedSymmetricKey: 'Z2V0IHRoaXMgZG9uZQ==',
-        encryptedData: 'Z2V0IHRoaXMgZG9uZQ==',
-        signature: 'Z2V0IHRoaXMgZG9uZQ==',
-    });
-
-    return secureEnvelopeFromProto(sepb)
 }
 
 /**

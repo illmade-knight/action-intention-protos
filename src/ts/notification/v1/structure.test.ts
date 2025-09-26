@@ -5,11 +5,11 @@ import { describe, it, expect } from 'vitest';
 // and that the "real" idiomatic TS files can successfully import the generated proto files.
 
 // 1. Import a "real" TS entity.
-import { URN, SecureEnvelope, secureEnvelopeToProto, base64ToBytes } from './envelope.js';
+import { deviceTokenToPb, DeviceToken } from './notification.js';
 
 // 2. Import a generated proto directly to be certain the pathing works.
 // we keep this here because it fails directly if the import path is corrupted
-import { SecureEnvelopePb } from './secure-envelope_pb.js';
+import {DeviceTokenPb, DeviceTokenPbSchema } from "./notification_pb.js";
 
 describe('Package Structure Verification Test', () => {
 
@@ -22,17 +22,10 @@ describe('Package Structure Verification Test', () => {
         // 3. The relative import path '../proto/secure-envelope_pb.js' works as expected.
 
         // Trivial assertions to confirm the imports are not undefined.
-        expect(URN).toBeDefined();
-        const se: SecureEnvelope = {
-            senderId: URN.create('user', 'alice-123'),
-            recipientId: URN.create('user', 'bob-123'),
-            messageId: "msg-abc-123-xyz",
-            encryptedSymmetricKey: base64ToBytes('Z2V0IHRoaXMgZG9uZQ=='),
-            encryptedData: base64ToBytes('Z2V0IHRoaXMgZG9uZQ=='),
-            signature: base64ToBytes('Z2V0IHRoaXMgZG9uZQ=='),
-        }
-        const sePb = secureEnvelopeToProto(se);
-        expect(sePb).toBeDefined();
+        const dt: DeviceToken = {token: "ghi", platform: "iOS"}
+        expect(dt).toBeDefined();
+        const deviceTokenPb = deviceTokenToPb(dt)
+        expect(deviceTokenPb).toBeDefined();
 
         console.log('✅ [Verification Test] Package structure is valid. Imports resolved successfully.');
     });
