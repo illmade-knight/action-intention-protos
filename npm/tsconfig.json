@@ -19,7 +19,7 @@
 
     // Declaration files
     "declaration": true,
-    "declarationDir": "./dist/types", // Put declaration files in a dedicated folder
+    "declarationDir": "./dist", // Put declaration files in a dedicated folder
     "sourceMap": true,
   },
 
