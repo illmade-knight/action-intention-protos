@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
-    // Basic settings to target modern JavaScript and CommonJS modules
+
     "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+
+    // CRITICAL FIX: Change module to 'ESNext' or 'NodeNext' for ESM output
+    "module": "NodeNext", // or "ESNext", depending on target runtime
+    "moduleResolution": "NodeNext",
 
     // Output options
     "outDir": "./dist",
