@@ -74,6 +74,7 @@ jobs:
           
           cp npm/package.json gen/ts/
           cp npm/README.md gen/ts/
+          cp npm/tsconfig.json gen/ts/ # Adjust path if tsconfig.json is elsewhere
           
           echo "--- ✅ Package preparation complete ---"
 
