@@ -46,46 +46,40 @@ jobs:
           rm -rf gen/ts gen/go
           
           # 2. GENERATE: Outputs hierarchical .ts files to gen/ts/
-          # E.g., gen/ts/action_intention/envelope/v1/secure-envelope_pb.ts
           buf generate 
           
           # 3. COPY HELPER FILES: Copy the mirrored source files directly into the generated hierarchy.
-          # (Assumes src/ts/action_intention/envelope/v1/envelope.ts exists)
           echo "Merging mirrored TypeScript files into gen/ts/ hierarchy..."
           if [ -d "src/ts" ]; then
-            # The -r flag merges the src/ts hierarchy into the gen/ts hierarchy.
             cp -r src/ts/* gen/ts/proto
           fi
           
-          # 4. Create index file (Requires update to create-ts-index.js to scan the merged hierarchy)
+          # 4. Create index file
           echo "Creating the main index.ts barrel file..."
           node ./scripts/create-ts-index.js 
           
-          # 🚨 DEBUG STEP: Print the contents of the generated index.ts 🚨
-          echo "--- START: index.ts Content Debug ---"
-          cat gen/ts/index.ts
-          echo "--- END: index.ts Content Debug ---"
-          
-           # 🚨 DEBUG STEP: Print the contents of the generated folder 🚨
-          echo "--- START: Directory Structure Debug ---"
-          # Find all files and print their full paths
-          find gen/ts -type f 
-          echo "--- END: Directory Structure Debug ---"
-          
+          # 5. Copy package configuration files
           cp npm/package.json gen/ts/
+          cp npm/tsconfig.json gen/ts/ # Ensure tsconfig is copied
           cp npm/README.md gen/ts/
           
           echo "--- ✅ Package preparation complete ---"
 
+      - name: Install Build Dependencies
+        working-directory: ./gen/ts
+        run: npm install
+
+      - name: Build TypeScript to JavaScript
+        working-directory: ./gen/ts
+        run: npm run build # This executes "tsc"
+
       - name: Verify Package Structure
         working-directory: ./npm
-        # Remove the explicit file path and rely only on the vitest.config.ts include pattern.
         run: ./node_modules/.bin/vitest run --reporter verbose
 
-
       - name: Publish to npm and create Git tag
+        working-directory: ./gen/ts # Corrected to run from the package directory
         run: npx semantic-release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-
