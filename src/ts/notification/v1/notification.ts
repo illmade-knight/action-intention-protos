@@ -1,6 +1,6 @@
 import {create} from "@bufbuild/protobuf";
 import {DeviceTokenPb, DeviceTokenPbSchema } from "./notification_pb.js";
-import {URN} from "../../sm/v1/envelope";
+import {URN} from "../../sm/v1/envelope.js";
 
 export interface DeviceToken {
     /**
