@@ -1,15 +1,43 @@
 {
   "compilerOptions": {
+    // Basic settings to target modern JavaScript and CommonJS modules
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "declaration": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+
+    // Output options
     "outDir": "./dist",
+    "rootDir": "./", // Start looking for source files in the current folder (gen/ts)
+
+    // Type checking and strictness
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Declaration files
+    "declaration": true,
+    "declarationDir": "./dist/types", // Put declaration files in a dedicated folder
+    "sourceMap": true,
   },
+
+  /**
+  * INCLUDES: This is the critical change.
+  * "**\/*.ts" tells tsc to find all .ts files recursively from the current directory.
+  * Since the action is run with 'working-directory: ./gen/ts', this correctly finds:
+  * 1. Generated files (e.g., action_intention/envelope/v1/...).
+  * 2. Copied helper files (e.g., proto/...).
+  * 3. The generated index file (index.ts).
+  */
   "include": [
-    "../gen/ts/**/*.ts",
-    "../src/ts/**/*.ts"
+    "**/*.ts"
+  ],
+
+  /**
+   * EXCLUDES: Exclude the output directory to prevent tsc from trying to compile its own output.
+   */
+  "exclude": [
+    "dist",
+    "node_modules"
   ]
 }
